@@ -1,0 +1,175 @@
+                                       <!DOCTYPE HTML>
+<html>
+	<head>
+		<title>JustPlay</title>
+		<script src="//www.parsecdn.com/js/parse-1.3.0.min.js"></script>
+		<link rel="shortcut icon" href="images/favicon.ico">
+		<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="js/jquery.min.js"></script>
+		 <!-- Custom Theme files -->
+		<link href="css/style.css" rel='stylesheet' type='text/css' />
+   		 <!-- Custom Theme files -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		</script>
+		<!----webfonts--->
+		<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+		<!---//webfonts--->
+		<!---- start-smoth-scrolling---->
+		<script type="text/javascript" src="js/move-top.js"></script>
+		<script type="text/javascript" src="js/easing.js"></script>
+		<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				$(".scroll").click(function(event){		
+					event.preventDefault();
+					$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+				});
+			});
+		</script>
+		 <!---- start-smoth-scrolling---->
+	</head>
+	<script>
+	Parse.initialize("l06ticwPhIqrNSFKXuttF7OS1yIDDHXP7jGu84KP", "s2qw4437HyEdLmOrvBZlW8iYuLEnW9Sg5f89Lg4z");
+	    function parse_emails(){
+            var Email = Parse.Object.extend("Emails");
+            var emailCopy = new Email();
+            var email = document.getElementById('userInput').value;
+            emailCopy.set("email", email);
+            emailCopy.save(null, {
+              success: function(emailCopy) {
+                alert('Your email has been recorded. Thanks!');
+              },
+              error: function(emailCopy, error) {
+                alert('There seems to have been a problem. Please contact us directly at team@justplayapp.com');
+              }
+            });
+	    }
+	</script>
+	<script>
+	$(function() {
+	  $('a[href*=#]:not([href=#])').click(function() {
+	    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+
+	      var target = $(this.hash);
+	      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+	      if (target.length) {
+	        $('html,body').animate({
+	          scrollTop: target.offset().top
+	        }, 1000);
+	        return false;
+	      }
+	    }
+	  });
+	});
+	</script>
+	<body>
+		<!---- container ---->
+		<div class="container">
+			<!---- header ---->
+			<div class="header">
+				<div class="col-md-5 header-left">
+					<!----sreen-gallery-cursual---->
+						<div class="sreen-gallery-cursual">
+							 <!-- requried-jsfiles-for owl -->
+							<link href="css/owl.carousel.css" rel="stylesheet">
+							    <script src="js/owl.carousel.js"></script>
+							        <script>
+							    $(document).ready(function() {
+							      $("#owl-demo").owlCarousel({
+							        items : 1,
+							        lazyLoad : true,
+							        autoPlay : true,
+							        navigation : false,
+							        navigationText :  false,
+							        pagination : true,
+							      });
+							    });
+							    </script>
+							 <!-- //requried-jsfiles-for owl -->
+							 <!-- start content_slider -->
+							 
+							 <div class="wrapperluck">
+						       <div id="owl-demo" class="owl-carousel">
+					                <div class="item">
+					                	<img src="images/screen1alt2.png" title="name" />
+					                </div>
+					                <div class="item">
+					                	<img src="images/screen2alt2.png" title="name" />
+					                </div>
+					                <div class="item">
+					                	<img src="images/screen3alt3.png" title="name" />
+					                </div>
+				              </div>
+				            </div>
+						<!--//sreen-gallery-cursual---->
+				</div>
+				</div>
+				<div id="home" class="col-md-7 header-right">
+            					<a href="#home"><img src="images/full_logo_2.png" title="value" /></a>
+            					<p>Find the perfect game. We'll do the rest. </p>
+            					<ul class="big-btns">
+            						<li><a class="btn-g" href="#anchortest">Download</a></li>
+            						<li><a class="btn-gr" href="#anchortest">Learn more</a></li>
+            					</ul>
+				            </div>
+				<div class="clearfix"> </div>
+			</div>
+			</div>
+
+			
+			<div name"notify" class="notify">
+				<div class="container">
+					<div class="notify-grid">
+						<img src="images/msg-icon.png" title="mail" />
+						<h3>Stay in touch.</h3>
+						<p></p>
+						<form>
+							<input type="text" class="text" id="userInput" value="Your email address" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Your email address';}">
+							<input type="submit" value="Submit" onclick="parse_emails()" />
+						</form>
+					</div>
+				</div>
+			</div>
+			<!----- notify ---->
+			<!----- social-icons ---->
+			<div class="social-icons" id="anchortest">
+				<div class="container">
+					<ul>
+						<li><a class="twitter" href="#"><span> </span></a></li>
+						<li><a class="facebook" href="#"><span> </span></a></li>
+						<div class="clearfix"> </div>
+					</ul>
+				</div>
+				<!---- footer-links ---->
+				<div class="footer-links">
+					<ul>
+						<li><a href="index.html">JustPlay</a><span> </span></li>
+						<li><a href="privacypolicy.html""> Privacy Policy </a><span> </span></li>
+						<li><a href="legal.html"> Legal </a></li>
+					</ul>
+					<script type="text/javascript">
+									$(document).ready(function() {
+										/*
+										var defaults = {
+								  			containerID: 'toTop', // fading element id
+											containerHoverID: 'toTopHover', // fading element hover id
+											scrollSpeed: 1200,
+											easingType: 'linear' 
+								 		};
+										*/
+										
+										$().UItoTop({ easingType: 'easeOutQuart' });
+										
+									});
+								</script>
+									<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+				</div>
+				<!---- footer-links ---->
+			</div>
+			<!----- social-icons ---->
+		</div>
+		<!---- container ---->
+	</body>
+</html>
+
