@@ -42,6 +42,7 @@
               },
               error: function(emailCopy, error) {
                 alert('There seems to have been a problem. Please contact us directly at team@justplayapp.com');
+				console.log('Failed to create new object, with error code: ' + error.message);
               }
             });
 	    }
