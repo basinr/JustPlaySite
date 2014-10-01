@@ -1,7 +1,6 @@
 <html>
 	<head>
 		<title>JustPlay </title>
-		<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 		<link href="style.css" rel='stylesheet' type='text/css' />
 		<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -11,25 +10,54 @@
    		 <!-- Custom Theme files -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
-	<script type="text/javascript">
-function toggleZoomScreen() {
-document.body.style.zoom="90%"
-} 
-</script >
+
 	<body>
 		<div class="container1">
 			<div class="title" >
-				<a href="index.html"><img id="logo" src="images/full_logo.png" title=""/></a>
+				<a href="index.html"><img id="logo" src="images/full_logo_2.png" title=""/></a>
 			</div>
 		</div>
-		<div class = "container2">
-			<p>Legal: JustPlay uses artwork from public sources and other artists. They deserve credit for their work.</p>
+				<br>
+		<div class="containerlinks">
+					<!---- footer-links ---->
+			<div class="footer-links2">
+				<ul>
+					
+					<li><a href="privacypolicy.html"> Privacy Policy </a></li>
+					<li><a href="legal.html"> Legal </a></li>
+				</ul>
+				<script type="text/javascript">
+								$(document).ready(function() {
+									/*
+									var defaults = {
+							  			containerID: 'toTop', // fading element id
+										containerHoverID: 'toTopHover', // fading element hover id
+										scrollSpeed: 1200,
+										easingType: 'linear' 
+							 		};
+									*/
+									
+									$().UItoTop({ easingType: 'easeOutQuart' });
+									
+								});
+							</script>
+								<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+			</div>
+			<!---- footer-links ---->
+		</div>
+		<!----- social-icons ---->
+		</div>
+		</div>
+		<div class = "containerlegal">
+			<p><h2><b>Legal</b></h2></p>
+			<p>
+			JustPlay uses artwork from public sources and other artists. They deserve credit for their work.</p>
 
 			<p> Background by Hailey Isaacs.</p>
 
 			<p>App Icon by Harrison Noh.</p>
 
-			<p>Icons made by Yannick (http://yanlu.de) from www.flaticon.com are licensed by http://creativecommons.org/licenses/by/3.0/ (Creative Commons BY 3.0)</p>
+			<p>Icons made by Yannick (http://yanlu.de) from www.flaticon.com are licensed by http://creativecommons.org/licenses/by/3.0/ (Creative Commons BY 3.0)
 
 			<p>Icons made by Picol (http://picol.org) from www.flaticon.com are licensed by http://creativecommons.org/licenses/by/3.0/ (Creative Commons BY 3.0)</p>
 
@@ -52,7 +80,6 @@ document.body.style.zoom="90%"
 						<li><a href="index.html">JustPlay</a><span> </span></li>
 						<li><a href="privacypolicy.html"> Privacy Policy </a><span> </span></li>
 						<li><a href="legal.html"> Legal </a><span> </span></li>
-						<li><a href="#">  Help </a></li>
 					</ul>
 					<script type="text/javascript">
 									$(document).ready(function() {
