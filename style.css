@@ -1,3 +1,9 @@
+.picturecontainer {
+	clear:both;
+	margin-right:9em;
+	margin-left:9em;
+
+}
 
 .container1{
 	float:left;
@@ -21,6 +27,7 @@
 	margin-right:9em;
 	margin-left:9em;
 }
+
 
 h2 {
 	margin-left:5.3em;
@@ -225,7 +232,7 @@ h2 {
 .footer-links2{
 
 	float: center;
-	font-size:2em;
+	font-size:30px;
 
 }
 .footer-links2 ul{
