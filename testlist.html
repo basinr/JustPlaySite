@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>JustPlay Please</title>
+  <meta name="description" content="The JustPlay Table">
+  
+  <!------------------------------------->
+     <!-- The styles -->
+    <link id="bs-css" href="cssSAMPLE/bootstrap-cerulean.min.css" rel="stylesheet">
+    <link href="cssSAMPLE/charisma-app.css" rel="stylesheet">
+  <!------------------------------------------------------------------>
+  
+  
+  <meta name="author" content="SitePoint">
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <link rel="stylesheet" href="cssSAMPLE"
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <link href="css/tablestyle.css" rel='stylesheet' type='text/css' />
+  <script src="//www.parsecdn.com/js/parse-1.3.5.min.js"></script>
+  <script src="js/scripts.js"></script>
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <!------->
+
+    <!---------->
+    <script>
+    Parse.initialize("l06ticwPhIqrNSFKXuttF7OS1yIDDHXP7jGu84KP", "s2qw4437HyEdLmOrvBZlW8iYuLEnW9Sg5f89Lg4z");
+        function sport_filter(sport){
+            var Game = Parse.Object.extend("Game");
+            var query = new Parse.Query(Game);
+            query.equalTo("sport", sport);
+            query.find({
+            success: function(results) {
+                alert("Successfully retrieved " + results.length + " scores.");
+                // Do something with the returned Parse.Object values
+                for (var i = 0; i < results.length; i++) { 
+                  var object = results[i];
+                  var mydate = new Date(object.get('startDate'));
+                  (function($) {
+               $('#results-list').append('<li><a href="#"><img class="dashboard-avatar" src ="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/4/005/026/1b7/2424bc6.jpg"></a><strong>Name: </strong><a href="#">' + object.id + '</a><br><strong>Location: </strong>' + object.get('locationName') + '<br><strong>Status: </strong>' + object.get('numPlayers') + '/' + object.get('maxPlayers') + '&nbsp;&nbsp;&nbsp;&nbsp;<span class="label-warning label label-default">' + mydate.getHours()%12 + ':' + mydate.getMinutes() + '0 p.m.</span></li>'); //LOL
+            })(jQuery);
+          
+          //alert(object.id + ' - ' + object.get('playerName'));
+        }
+        },
+        error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+            }
+        });
+    }
+    </script>
+</head>
+<body>
+    <div>
+        <div style="padding-top:10px; margin-left: 15px;">
+            <p class="btn-group">
+                <button class="btn btn-default" id="soccer_btn" onclick="sport_filter('Soccer')">Soccer</button>
+                <button class="btn btn-default" id="football_btn" onclick="sport_filter('Football')">Football</button>
+                <button class="btn btn-default" id="tennis_btn" onclick="sport_filter('Tennis')">Tennis</button>
+                <button class="btn btn-default" id="basketball_btn" onclick="sport_filter('Basketball')">Basketball</button>
+            </p>
+        </div>
+            <div class="box col-md-4" style="padding-top:0px; margin-top:0px;">
+            <div class="box-inner" style="width:528x;height:400px;overflow: scroll;">
+                <div class="box-header well" data-original-title="">
+                    <h2> Game Activity</h2>
+                </div>
+                <div class="box-content">
+                    <div class="box-content">
+                        <ul id="results-list" class="dashboard-list">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+
+</body>
+</html>
