@@ -28,8 +28,9 @@
     <!---------->
     
     <script>
-    Parse.initialize("l06ticwPhIqrNSFKXuttF7OS1yIDDHXP7jGu84KP", "s2qw4437HyEdLmOrvBZlW8iYuLEnW9Sg5f89Lg4z");
+        Parse.initialize("l06ticwPhIqrNSFKXuttF7OS1yIDDHXP7jGu84KP", "s2qw4437HyEdLmOrvBZlW8iYuLEnW9Sg5f89Lg4z");
         function sport_filter(sport){
+            $('#results-list').empty();
             var Game = Parse.Object.extend("Game");
             var query = new Parse.Query(Game);
             query.equalTo("sport", sport);
@@ -61,13 +62,9 @@
             x.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
-
-    function showPosition(position) {
-        x.innerHTML = "Latitude: " + position.coords.latitude + 
-        "<br>Longitude: " + position.coords.longitude;  
-    }
     
     function location_filter(position){
+        $('#results-list').empty();
         var point = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
         var Game = Parse.Object.extend("Game");
         var query = new Parse.Query(Game);
@@ -85,7 +82,36 @@
                 }
             }
         })
-        
+    }
+    
+
+    
+    function getLocationSoonest() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(soonest);
+        } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    function soonest(position){
+        $('#results-list').empty();
+        var point = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
+        var Game = Parse.Object.extend("Game");
+        var query = new Parse.Query(Game);
+        query.near("locationPoint", point);
+        query.ascending("startDate");
+        query.find({
+            success: function(placesObjects){
+                alert("Successfully retrieved " + placesObjects.length + " Games near you.");
+                for (var x = 0; x < placesObjects.length; x++){
+                    var object = placesObjects[x];
+                    var mydate = new Date(object.get('startDate'));
+                    (function($) {
+               $('#results-list').append('<li><a href="#"><img class="dashboard-avatar" src ="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/4/005/026/1b7/2424bc6.jpg"></a><strong>Name: </strong><a href="#">' + object.id + '</a><br><strong>Location: </strong>' + object.get('locationName') + '<br><strong>Status: </strong>' + object.get('numPlayers') + '/' + object.get('maxPlayers') + '&nbsp;&nbsp;&nbsp;&nbsp;<span class="label-warning label label-default">' + mydate.getHours()%12 + ':' + mydate.getMinutes() + '0 p.m.</span>' + '&nbsp;&nbsp;&nbsp;&nbsp;' + (mydate.getMonth() + 1) + '/' + mydate.getDate() + '/' + mydate.getFullYear() + '</li>'); //LOL
+            })(jQuery);
+                }
+            }
+        })
     }
     </script>
 </head>
@@ -94,9 +120,7 @@
         <div id="demo"></div>
         <div style="padding-top:10px; margin-left: 15px;">
             <p class="btn-group">
-                <button class="btn btn-default" id="upcoming_btn" onclick="">Upcoming games</button>
-                <button class="btn btn-default" id="football_btn" onclick="sport_filter('Football')">Football</button>
-                <button class="btn btn-default" id="tennis_btn" onclick="sport_filter('Tennis')">Tennis</button>
+                <button class="btn btn-default" id="soonest_btn" onclick="getLocationSoonest()">Upcoming games</button>
                 <button class="btn btn-default" id="Near Me" onclick="getLocation()">Near me</button>
             </p>
         </div>
