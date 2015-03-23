@@ -26,6 +26,7 @@
   <!------->
 
     <!---------->
+    
     <script>
     Parse.initialize("l06ticwPhIqrNSFKXuttF7OS1yIDDHXP7jGu84KP", "s2qw4437HyEdLmOrvBZlW8iYuLEnW9Sg5f89Lg4z");
         function sport_filter(sport){
@@ -34,7 +35,7 @@
             query.equalTo("sport", sport);
             query.find({
             success: function(results) {
-                alert("Successfully retrieved " + results.length + " scores.");
+                alert("Successfully retrieved " + results.length + " games.");
                 // Do something with the returned Parse.Object values
                 for (var i = 0; i < results.length; i++) { 
                   var object = results[i];
@@ -51,16 +52,52 @@
             }
         });
     }
+    var x = document.getElementById("demo");
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(location_filter);
+        } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        x.innerHTML = "Latitude: " + position.coords.latitude + 
+        "<br>Longitude: " + position.coords.longitude;  
+    }
+    
+    function location_filter(position){
+        var point = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
+        var Game = Parse.Object.extend("Game");
+        var query = new Parse.Query(Game);
+        query.near("locationPoint", point);
+        query.limit(10);
+        query.find({
+            success: function(placesObjects){
+                alert("Successfully retrieved " + placesObjects.length + " Games near you.");
+                for (var x = 0; x < placesObjects.length; x++){
+                    var object = placesObjects[x];
+                    var mydate = new Date(object.get('startDate'));
+                    (function($) {
+               $('#results-list').append('<li><a href="#"><img class="dashboard-avatar" src ="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/4/005/026/1b7/2424bc6.jpg"></a><strong>Name: </strong><a href="#">' + object.id + '</a><br><strong>Location: </strong>' + object.get('locationName') + '<br><strong>Status: </strong>' + object.get('numPlayers') + '/' + object.get('maxPlayers') + '&nbsp;&nbsp;&nbsp;&nbsp;<span class="label-warning label label-default">' + mydate.getHours()%12 + ':' + mydate.getMinutes() + '0 p.m.</span></li>'); //LOL
+            })(jQuery);
+                }
+            }
+        })
+        
+    }
     </script>
 </head>
 <body>
     <div>
+        <div id="demo"></div>
         <div style="padding-top:10px; margin-left: 15px;">
             <p class="btn-group">
-                <button class="btn btn-default" id="soccer_btn" onclick="sport_filter('Soccer')">Soccer</button>
+                <button class="btn btn-default" id="upcoming_btn" onclick="">Upcoming games</button>
                 <button class="btn btn-default" id="football_btn" onclick="sport_filter('Football')">Football</button>
                 <button class="btn btn-default" id="tennis_btn" onclick="sport_filter('Tennis')">Tennis</button>
-                <button class="btn btn-default" id="basketball_btn" onclick="sport_filter('Basketball')">Basketball</button>
+                <button class="btn btn-default" id="Near Me" onclick="getLocation()">Near me</button>
             </p>
         </div>
             <div class="box col-md-4" style="padding-top:0px; margin-top:0px;">
