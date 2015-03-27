@@ -1,0 +1,160 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>JustPlay Please</title>
+  <meta name="description" content="The JustPlay Table">
+  
+  <!------------------------------------->
+     <!-- The styles -->
+    <link id="bs-css" href="cssSAMPLE/bootstrap-cerulean.min.css" rel="stylesheet">
+    <link href="cssSAMPLE/charisma-app.css" rel="stylesheet">
+  <!------------------------------------------------------------------>
+  
+  
+  <meta name="author" content="SitePoint">
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <link rel="stylesheet" href="cssSAMPLE"
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <link href="css/tablestyle.css" rel='stylesheet' type='text/css' />
+  <script type="text/javascript" src="js/humane.js"></script>
+  <script src="//www.parsecdn.com/js/parse-1.3.5.min.js"></script>
+  <script src="js/scripts.js"></script>
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <!------->
+
+    <!---------->
+
+    <script>
+        Parse.initialize("l06ticwPhIqrNSFKXuttF7OS1yIDDHXP7jGu84KP", "s2qw4437HyEdLmOrvBZlW8iYuLEnW9Sg5f89Lg4z");
+        $(function() {
+          getLocationSoonest();
+        });
+        function sport_filter(sport){
+            $('#results-list').empty();
+            var Game = Parse.Object.extend("Game");
+            var query = new Parse.Query(Game);
+            query.equalTo("sport", sport);
+            query.find({
+            success: function(results) {
+                alert("Successfully retrieved " + results.length + " games.");
+                // Do something with the returned Parse.Object values
+                for (var i = 0; i < results.length; i++) { 
+                  var object = results[i];
+                  var mydate = new Date(object.get('startDate'));
+                  (function($) {
+               $('#results-list').append('<li><a href="#"><img class="dashboard-avatar" src ="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/4/005/026/1b7/2424bc6.jpg"></a><strong>Name: </strong><a href="#">' + object.id + '</a><br><strong>Location: </strong>' + object.get('locationName') + '<br><strong>Status: </strong>' + object.get('numPlayers') + '/' + object.get('maxPlayers') + '&nbsp;&nbsp;&nbsp;&nbsp;<span class="label-warning label label-default">' + mydate.getHours()%12 + ':' + mydate.getMinutes() + '</span></li>'); //LOL
+            })(jQuery);
+          
+          //alert(object.id + ' - ' + object.get('playerName'));
+        }
+        },
+        error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+            }
+        });
+    }
+    var x = document.getElementById("demo");
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(location_filter);
+        } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    
+    function location_filter(position){
+        $('#results-list').empty();
+        var point = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
+        var Game = Parse.Object.extend("Game");
+        var query = new Parse.Query(Game);
+        query.near("locationPoint", point);
+        query.limit(10);
+        query.find({
+            success: function(placesObjects){
+                alert("Successfully retrieved " + placesObjects.length + " Games near you.");
+                for (var x = 0; x < placesObjects.length; x++){
+                    var object = placesObjects[x];
+                    var mydate = new Date(object.get('startDate'));
+                    var src = "images/" + object.get('sport') + ".png";
+                    var humane = humaneDate(mydate);
+                    (function($) {
+               $('#results-list').append('<li><a href="#"><img class="dashboard-avatar" src =' + src + '></a><strong>Name: </strong><a href="#">' + object.id + '</a><br><strong>Location: </strong>' + object.get('locationName') + '<br><strong>Status: </strong>' + object.get('numPlayers') + '/' + object.get('maxPlayers') + '&nbsp;&nbsp;&nbsp;&nbsp;<span class="label-warning label label-default">' + humane + '</span></li>'); //LOL
+            })(jQuery);
+                }
+            }
+        })
+    }
+    
+
+    
+    function getLocationSoonest() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(soonest);
+        } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    
+    function soonest(position){
+        $('#results-list').empty();
+        var point = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
+        var Game = Parse.Object.extend("Game");
+        var query = new Parse.Query(Game);
+        query.near("locationPoint", point);
+        query.descending("startDate");
+        query.find({
+            success: function(placesObjects){
+                alert("Successfully retrieved " + placesObjects.length + " Games near you.");
+                for (var x = 0; x < placesObjects.length; x++){
+                    var object = placesObjects[x];
+                    var mydate = new Date(object.get('startDate'));
+                    var humane = humaneDate(mydate);
+                    var src = "images/" + object.get('sport') + ".png";
+                    (function($) {
+               $('#results-list').append('<li><a href="#"><img id="image" class="dashboard-avatar" src=' + src + '></a><strong>Name: </strong><a id="sport" href="#">' + object.get('sport') + '</a><br><strong>Location: </strong>' + object.get('locationName') + '<br><strong>Status: </strong>' + object.get('numPlayers') + '/' + object.get('maxPlayers') + '&nbsp;&nbsp;&nbsp;&nbsp;<span class="label-warning label label-default">' + humane + '</span>' + '&nbsp;&nbsp;&nbsp;&nbsp;</li>');
+            })(jQuery);
+                }
+            }
+        })
+        (function($) {
+            var listItems = $("#results-list li");
+            listItems.each(function(idx, li) {
+                $('#image', this).attr('src', 'images/Basketball.png');
+            });
+        })(jQuery);
+    }
+        
+
+    </script>
+</head>
+<body>
+    <div>
+        <div id="demo"></div>
+        <div style="padding-top:10px; margin-left: 15px;">
+            <p class="btn-group">
+                <button class="btn btn-default" id="soonest_btn" onclick="getLocationSoonest()">Upcoming games</button>
+            </p>
+        </div>
+            <div class="box col-md-4" style="padding-top:0px; margin-top:0px;">
+            <div class="box-inner" style="width:528x;height:400px;overflow: scroll;">
+                <div class="box-header well" data-original-title="">
+                    <h2> Game Activity</h2>
+                </div>
+                <div class="box-content">
+                    <div class="box-content">
+                        <ul id="results-list" class="dashboard-list">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+
+</body>
+</html>
