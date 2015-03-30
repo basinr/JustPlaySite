@@ -1,0 +1,190 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Game Feed</title>
+  <meta name="description" content="The JustPlay Table">
+  
+  <!------------------------------------->
+     <!-- The styles -->
+    <!---<link id="bs-css" href="cssSAMPLE/bootstrap-cerulean.min.css" rel="stylesheet"> <!-->
+    <link href="js/bootstrap.min.css" rel="stylesheet">
+  <!------------------------------------------------------------------>
+  
+  <meta name="author" content="SitePoint">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/humane.js"></script>
+  <script type="text/javascript" src="js/spin.min.js"></script>
+  <script src="//www.parsecdn.com/js/parse-1.3.5.min.js"></script>
+  <script src="js/scripts.js"></script>
+
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <!------->
+
+    <!---------->
+
+    <script>
+        Parse.initialize("l06ticwPhIqrNSFKXuttF7OS1yIDDHXP7jGu84KP", "s2qw4437HyEdLmOrvBZlW8iYuLEnW9Sg5f89Lg4z");
+        $(function() {
+            getLocationSoonest();
+        });
+        function sport_filter(sport){
+            $('#results-list').empty();
+            var Game = Parse.Object.extend("Game");
+            var query = new Parse.Query(Game);
+            query.equalTo("sport", sport);
+            query.find({
+            success: function(results) {
+                alert("Successfully retrieved " + results.length + " games.");
+                // Do something with the returned Parse.Object values
+                for (var i = 0; i < results.length; i++) { 
+                  var object = results[i];
+                  var mydate = new Date(object.get('startDate'));
+                  (function($) {
+               $('#results-list').append('<li><a href="#"><img class="dashboard-avatar" src ="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/4/005/026/1b7/2424bc6.jpg"></a><strong>Name: </strong><a href="#">' + object.id + '</a><br><strong>Location: </strong>' + object.get('locationName') + '<br><strong>Status: </strong>' + object.get('numPlayers') + '/' + object.get('maxPlayers') + '&nbsp;&nbsp;&nbsp;&nbsp;<span class="label-warning label label-default">' + mydate.getHours()%12 + ':' + mydate.getMinutes() + '</span></li>'); //LOL
+            })(jQuery);
+          
+          //alert(object.id + ' - ' + object.get('playerName'));
+        }
+        },
+        error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+            }
+        });
+    }
+    var x = document.getElementById("demo");
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(location_filter);
+        } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    
+    function location_filter(position){
+        $('#results-list').empty();
+        var point = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
+        var Game = Parse.Object.extend("Game");
+        var query = new Parse.Query(Game);
+        query.near("locationPoint", point);
+        query.limit(10);
+        query.find({
+            success: function(placesObjects){
+                alert("Successfully retrieved " + placesObjects.length + " Games near you.");
+                for (var x = 0; x < placesObjects.length; x++){
+                    var object = placesObjects[x];
+                    var mydate = new Date(object.get('startDate'));
+                    var src = "images/" + object.get('sport') + ".png";
+                    var humane = humaneDate(mydate);
+                    (function($) {
+               $('#results-list').append('<li><a href="#"><img class="dashboard-avatar" src =' + src + '></a><strong>Name: </strong><a href="#">' + object.id + '</a><br><strong>Location: </strong>' + object.get('locationName') + '<br><strong>Status: </strong>' + object.get('numPlayers') + '/' + object.get('maxPlayers') + '&nbsp;&nbsp;&nbsp;&nbsp;<span class="label-warning label label-default">' + humane + '</span></li>'); //LOL
+            })(jQuery);
+                }
+            }
+        })
+    }
+    var opts = {
+  lines: 13, // The number of lines to draw
+  length: 20, // The length of each line
+  width: 10, // The line thickness
+  radius: 30, // The radius of the inner circle
+  corners: 1, // Corner roundness (0..1)
+  rotate: 0, // The rotation offset
+  direction: 1, // 1: clockwise, -1: counterclockwise
+  color: '#000', // #rgb or #rrggbb or array of colors
+  speed: 1, // Rounds per second
+  trail: 60, // Afterglow percentage
+  shadow: false, // Whether to render a shadow
+  hwaccel: false, // Whether to use hardware acceleration
+  className: 'spinner', // The CSS class to assign to the spinner
+  zIndex: 2e9, // The z-index (defaults to 2000000000)
+  top: '50%', // Top position relative to parent
+  left: '50%' // Left position relative to parent
+};
+
+    
+    function getLocationSoonest() {
+        navigator.geolocation.getCurrentPosition(soonest, nolocation,{timeout:10000});
+    }
+    
+    function nolocation(){
+        alert("Sorry! Geolocation is not supported by this browser, or is not enabled by this device. It is necessary for this task.");
+    }
+    
+    function soonest(position){
+        var target = document.getElementById("results");
+        var spinner = new Spinner(opts).spin(target);
+        $('#results-list').empty();
+        var point = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
+        var Game = Parse.Object.extend("Game");
+        var query = new Parse.Query(Game);
+        query.near("locationPoint", point);
+        query.descending("startDate");
+        query.find({
+            success: function(placesObjects){
+                spinner.stop();
+                //alert("Successfully retrieved " + placesObjects.length + " Games near you.");
+                spinner.stop();
+                for (var x = 0; x < placesObjects.length; x++){
+                    var object = placesObjects[x];
+                    var mydate = new Date(object.get('startDate'));
+                    var humane = humaneDate(mydate);
+                    var src = "images/" + object.get('sport') + ".png";
+                    (function($) {
+            $('#results').append('<div class="list-group" style="margin-bottom:0px"><a href="#" class="list-group-item active" style="padding-top:11px; border: 1px #d3d3d3 solid; background-color:#ffffff;"><span style="background-color:#ffffff; border: 1px solid #99badd; color:#99badd;" class="badge">'+ object.get('numPlayers') + '/' + object.get('maxPlayers') + '</span><span style="background-color:#ffffff; border: 1px solid #99badd; color:#99badd;" class="badge">'+ humane +'</span><h4 style="color:#575757;" class="list-group-item-heading">'+ object.get('sport') +'</h4><p style = "color:#7A7A7A; padding-bottom:3px;" class="list-group-item-text">'+ object.get('locationName') +'</p></a></div>');
+            })(jQuery);
+                }
+            }
+        })
+        (function($) {
+            var listItems = $("#results-list li");
+            listItems.each(function(idx, li) {
+                $('#image', this).attr('src', 'images/Basketball.png');
+            });
+        })(jQuery);
+    }
+        
+
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+          <a class="navbar-brand" id="bauhaus" href="index.html" style="color:#FFA500; width:80%;">JustPlay</a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="team.html">Team</a></li>
+              <li><a href="legal.html">Legal</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><button type="button" class="btn btn-default navbar-btn" style="float:right;" onclick="getLocationSoonest();">Refresh</button></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+     </nav>
+        <div id="results">
+        </div>
+    </div>
+
+    <!--/span-->
+
+</body>
+</html>
