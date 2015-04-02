@@ -1,8 +1,11 @@
 <html>
 	<head>
-		<title>JustPlay </title>
+		<title>Legal </title>
+		<link rel="shortcut icon" href="images/favicon.ico">
 		<link href="style.css" rel='stylesheet' type='text/css' />
-		<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+		<link href="js/bootstrap.min.css" rel='stylesheet' type='text/css' />
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="js/jquery.min.js"></script>
 		 <!-- Custom Theme files -->
@@ -12,42 +15,30 @@
 	</head>
 
 	<body>
-		<div class="container1">
-			<div class="title" >
-				<a href="index.html"><img id="logo" src="images/full_logo_2.png" title=""/></a>
-			</div>
-		</div>
-				<br>
-		<div class="containerlinks">
-					<!---- footer-links ---->
-			<div class="footer-links2">
-				<ul>
-					<li><a href="about.html"> About </a></li>
-					<li><a href="privacypolicy.html"> Privacy Policy </a></li>
-					<li><a href="legal.html"> Legal </a></li>
-				</ul>
-				<script type="text/javascript">
-								$(document).ready(function() {
-									/*
-									var defaults = {
-							  			containerID: 'toTop', // fading element id
-										containerHoverID: 'toTopHover', // fading element hover id
-										scrollSpeed: 1200,
-										easingType: 'linear' 
-							 		};
-									*/
-									
-									$().UItoTop({ easingType: 'easeOutQuart' });
-									
-								});
-							</script>
-								<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
-			</div>
-			<!---- footer-links ---->
-		</div>
-		<!----- social-icons ---->
-		</div>
-		</div>
+		<nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+          <a class="navbar-brand" id="bauhaus" href="index.html" style="color:#FFA500; width:80%">JustPlay</a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li ><a href="index.html">Home</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="team.html">Team</a></li>
+              <li class="active"><a href="legal.html">Legal</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <a type="button" role="button" class="btn btn-default navbar-btn" style="float:right; color:green;" href="Gamefeed.html">View Open Games</a>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+     </nav>
 		<div class = "containerlegal">
 			<p><h2><b>Legal</b></h2></p>
 			<p>
@@ -70,16 +61,17 @@
 				<div class="container">
 					<ul>
 						<li><a class="twitter" href="#"><span> </span></a></li>
-						<li><a class="facebook" href="#"><span> </span></a></li>
+						<li><a class="facebook" href="https://www.facebook.com/JustPlayOfficialApp"><span> </span></a></li>
 						<div class="clearfix"> </div>
 					</ul>
 				</div>
 				<!---- footer-links ---->
 				<div class="footer-links">
 					<ul>
-						<li><a href="about.html"> About </a> </span></li>
-						<li><a href="privacypolicy.html"> Privacy Policy </a><span> </span></li>
-						<li><a href="legal.html"> Legal </a><span> </span></li>
+						<li><a href="about.html"> About </a> <span> </span></li>
+						<li><a href="team.html"> Team </a><span> </span></li>
+						<li><a href="privacypolicy.html"> Privacy Policy </a><span></span></li>
+						<li><a href="legal.html"> Legal </a></li>
 					</ul>
 					<script type="text/javascript">
 									$(document).ready(function() {
