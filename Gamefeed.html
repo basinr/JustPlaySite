@@ -15,12 +15,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="images/favicon.ico">
   <link rel="stylesheet" href="css/styles.css?v=1.0">
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/humane.js"></script>
   <script type="text/javascript" src="js/spin.min.js"></script>
   <script src="//www.parsecdn.com/js/parse-1.3.5.min.js"></script>
   <script src="js/scripts.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>	<!-- Google Maps API -->
 
 
   <!--[if lt IE 9]>
@@ -29,9 +30,15 @@
   <!------->
 
     <!---------->
-
-    <script>
+    	<title>Google Map Template with Geocoded Address</title>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>		<!-- Google Maps API -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>	<!-- Google CDN for jQuery -->
+	<script>
+	// Google map object
+	
+	// Initialize and display a google map
         Parse.initialize("l06ticwPhIqrNSFKXuttF7OS1yIDDHXP7jGu84KP", "s2qw4437HyEdLmOrvBZlW8iYuLEnW9Sg5f89Lg4z");
+        
         $(function() {
             getLocationSoonest();
         });
@@ -112,18 +119,26 @@
 
     
     function getLocationSoonest() {
-        navigator.geolocation.getCurrentPosition(soonest, nolocation,{timeout:10000});
+        navigator.geolocation.getCurrentPosition(latlong, zipcoder, {timeout:4000});
     }
     
-    function nolocation(){
-        alert("Sorry! Geolocation is not supported by this browser, or is not enabled by this device. It is necessary for this task.");
+    function latlong(position){
+        var lat = position.coords.latitude;
+        var long = position.coords.longitude;
+        soonest(lat, long);
     }
     
-    function soonest(position){
+    function zipcoder(){
+        alert("Sorry! Geolocation may not be enabled by you. Enter your zipcode instead.");
+        document.getElementById("myModal").click();
+    }
+    
+    function soonest(lat, lng){
         var target = document.getElementById("results");
         var spinner = new Spinner(opts).spin(target);
         $('#results-list').empty();
-        var point = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
+        var point = new Parse.GeoPoint(lat, lng);
+        //var point = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
         var Game = Parse.Object.extend("Game");
         var query = new Parse.Query(Game);
         query.near("locationPoint", point);
@@ -139,21 +154,48 @@
                     var humane = humaneDate(mydate);
                     var src = "images/" + object.get('sport') + ".png";
                     (function($) {
-            $('#results').append('<div class="list-group" style="margin-bottom:0px"><a href="#" class="list-group-item active" style="padding-top:11px; border: 1px #d3d3d3 solid; background-color:#ffffff;"><span style="background-color:#ffffff; border: 1px solid #99badd; color:#99badd;" class="badge">'+ object.get('numPlayers') + '/' + object.get('maxPlayers') + '</span><span style="background-color:#ffffff; border: 1px solid #99badd; color:#99badd;" class="badge">'+ humane +'</span><h4 style="color:#575757;" class="list-group-item-heading">'+ object.get('sport') +'</h4><p style = "color:#7A7A7A; padding-bottom:3px;" class="list-group-item-text">'+ object.get('locationName') +'</p></a></div>');
+            $('#results').append('<div class="list-group" style="margin-bottom:0px"><a href="#" class="list-group-item active" style="padding-top:11px; border: 1px #d3d3d3 solid; background-color:#ffffff;"></span><span style="background-color:#ffffff; border: 1px solid #0276FD; color:#0276FD;" class="badge">'+ object.get('numPlayers') + '/' + object.get('maxPlayers') + '</span><span style="background-color:#ffffff; border: 1px solid #0276FD; color:#0276FD;" class="badge">'+ humane +'</span><h4 style="color:#575757;" class="list-group-item-heading">'+ object.get('sport') +'</h4><p style = "color:#7A7A7A; padding-bottom:3px;" class="list-group-item-text">'+ object.get('locationName') +'</p></a></div>');
             })(jQuery);
                 }
             }
         })
-        (function($) {
-            var listItems = $("#results-list li");
-            listItems.each(function(idx, li) {
-                $('#image', this).attr('src', 'images/Basketball.png');
-            });
-        })(jQuery);
-    }
-        
 
+    }
+    function geocodit(){  
+		// Create a Google coordinate object for where to initially center the map
+		//var latlng = new google.maps.LatLng( 38.8951, -77.0367 );	// Washington, DC
+		
+		// Map options for how to display the Google map
+		//var mapOptions = { zoom: 12, center: latlng  };
+		
+		// Show the Google map in the div with the attribute id 'map-canvas'.
+		//map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+		// Update the Google map for the user's inputted address
+		var geocoder = new google.maps.Geocoder();    // instantiate a geocoder object
+		
+		// Get the user's inputted address
+		var address = document.getElementById("zipcode").value;
+		//document.getElementById("zipcode").value;
+	
+			// Make asynchronous call to Google geocoding API
+		geocoder.geocode( { 'address': address }, function(results, status) {
+			var addr_type = results[0].types[0];	// type of address inputted that was geocoded
+			if ( status == google.maps.GeocoderStatus.OK ){ 
+				var lat = results[0].geometry.location.lat();
+                var lng = results[0].geometry.location.lng();
+                //alert(lng +  ", " + lat);
+                soonest(lat, lng);}
+			else     
+				alert("Geocode was not successful for the following reason: " + status);        
+		});
+
+	}
+    
     </script>
+    
+  
+
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -175,16 +217,38 @@
               <li><a href="legal.html">Legal</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><button type="button" class="btn btn-default navbar-btn" style="float:right;" onclick="getLocationSoonest();">Refresh</button></li>
+              <a type="button" class="btn btn-default navbar-btn" style="float:right; color:green;" onclick="getLocationSoonest();">Refresh</a>
+              <a type="button" class="btn btn-default navbar-btn" style="float:right; color:green;" id="myModal" data-target="#modal" data-toggle="modal" href="#form-content">Zipcode</a>
+              
+              
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
      </nav>
+    
         <div id="results">
         </div>
+    <!-- Small modal -->
+    <div class="modal fade bs-example-modal-sm" id="modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Enter Zipcode</h4>
+            </div>
+            <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input type="text" class="form-control" id="zipcode">
+          </div>
+         </form>
+          </div>
+          <div class="modal-footer">
+
+        <button type="button" onclick="geocodit()" class="btn btn-primary" >Confirm</button>
+      </div>
+        </div>
+      </div>
     </div>
-
-    <!--/span-->
-
 </body>
 </html>
